@@ -17,7 +17,9 @@ app.use('/', routes);
 
 
 const init = async () => {
-  await db.sync();
+  await db.sync({
+    force: true
+  });
   app.listen(1339, () => {
     console.log('app listening')
   })
