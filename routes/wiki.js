@@ -1,12 +1,15 @@
 const wiki = require('express').Router()
 const { Page } = require("../models/index");
-const { addPage } = require('../views')
+const { addPage, wikiPage, main } = require('../views')
 
-wiki.get('/', (req, res) => {
-  res.send('root GET');
+wiki.get('/', async (req, res, next) => {
+  try {
+    const allPages = await Page.findAll({ limit: 10 });
+    res.send(main(allPages));
+  } catch(error) {
+    next(error);
+  }
 });
-
-
 
 wiki.post('/', async (req, res, next) => {
   const page = new Page({
@@ -15,8 +18,7 @@ wiki.post('/', async (req, res, next) => {
   });
   try {
     await page.save();
-    // console.log('testing')
-    res.redirect('/');
+    res.redirect(`/wiki/${page.slug}`);
   } catch (error) { next(error) }
 });
 
@@ -24,5 +26,16 @@ wiki.get('/add', (req, res) => {
   res.send(addPage());
 });
 
+wiki.get('/:slug', async (req, res, next) => {
+  try {
+    const foundPage = await Page.findOne({
+      where: { slug: req.params.slug }
+    });
+    res.send(wikiPage(foundPage));
+  } catch(error) {
+    next(error);
+  }
+
+});
 
 module.exports = wiki;
