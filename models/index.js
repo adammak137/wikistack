@@ -21,6 +21,7 @@ const Page = db.define('page', {
   status: {
     type: Sequalize.ENUM('open', 'closed'),
     defaultValue: 'closed'
+  }
 })
 
 const User = db.define('user', {
