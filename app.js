@@ -10,7 +10,11 @@ app.use(express.urlencoded({ extended: false }))
 // Routes
 const routes = require('./routes/routes')
 
+app.get('/', (req, res) => {
+  res.redirect('/wiki')
+})
 app.use('/', routes);
+
 
 const init = async () => {
   await db.sync();

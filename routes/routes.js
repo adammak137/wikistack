@@ -7,8 +7,8 @@ const userRouter = require('./user');
 router.use('/wiki', wikiRouter);
 router.use('/user', userRouter);
 
-router.get('/', (req, res) => {
-  res.send(layout())
-})
+// router.get('/', (req, res) => {
+//   res.send(layout())
+// })
 
 module.exports = router

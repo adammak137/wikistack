@@ -23,6 +23,14 @@ const Page = db.define('page', {
     defaultValue: 'closed'
   }
 })
+const createSlug = (str) => {
+  return str.replace(/\s+/g, '_').replace(/\W/g, '')
+}
+
+Page.beforeValidate((pageInstance) => {
+  pageInstance.slug = createSlug(pageInstance.title)
+})
+
 
 const User = db.define('user', {
   name: {
@@ -38,6 +46,7 @@ const User = db.define('user', {
   }
 })
 
+
 module.exports = {
-  db
+  db, Page, User
 }
